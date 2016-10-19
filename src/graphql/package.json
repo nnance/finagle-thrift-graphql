@@ -4,6 +4,8 @@
   "description": "A thrift client implemented as a HAPI Server",
   "main": "./dist/server.js",
   "scripts": {
+    "build": "tsc",
+    "thrift": "thrift -r --gen js:node -o ./dist ../hello/src/main/thrift/hello.thrift",
     "start": "node ./dist/server.js",
     "develop": "nodemon ./dist/server.js",
     "debug": "node-debug ./dist/server.js",
