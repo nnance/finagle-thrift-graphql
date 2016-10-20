@@ -1,6 +1,11 @@
 version: '2'
 
 services:
+  graphql:
+    build: graphql/
+    container_name: graphql
+    ports: ["3000:3000"]
+
   server:
     build: hello/
     container_name: server
