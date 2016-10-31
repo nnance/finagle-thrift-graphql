@@ -5,6 +5,8 @@
   "main": "./dist/server.js",
   "scripts": {
     "build": "tsc",
+    "thrift": "npm run thrift:numbers",
+    "thrift:numbers": "thrift -r --gen js:node -o ./dist ../svc-numbers/src/thrift/numbers.thrift",
     "thrift:hello": "thrift -r --gen js:node -o ./dist ../hello-scala/src/main/thrift/hello.thrift",
     "start": "node ./dist/server.js",
     "develop": "nodemon ./dist/server.js",

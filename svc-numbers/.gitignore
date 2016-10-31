@@ -1,0 +1,4 @@
+# node ignores
+node_modules/
+dist/
+npm-debug.log

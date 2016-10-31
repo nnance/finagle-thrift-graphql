@@ -2,53 +2,24 @@ import * as hapi from "hapi";
 import * as graphql from "graphql";
 import { graphqlHapi, graphiqlHapi } from "graphql-server-hapi";
 
-// tslint:disable
-const thrift = require("thrift");
-const Hello = require("./gen-nodejs/Hello");
-// tslint:enable
-
-// Create Thrift client
-const transport = thrift.TFramedTransport;
-const protocol = thrift.TFramedProtocol;
-
-enum ConnectionStates {
-  Efforting,
-  Connected,
-  Timedout,
-  Closed,
-}
-
-let currentState = ConnectionStates.Efforting;
-
-const connection = thrift.createConnection("linkerd", 8081, {
-  max_attempts: 10,
-  protocol: protocol,
-  transport: transport,
-});
-
-connection.on("error", (err) => {
-  currentState = ConnectionStates.Efforting;
-  console.error(err);
-});
-
-connection.on("timeout", (err) => currentState = ConnectionStates.Timedout);
-
-connection.on("connect", function(err) {
-  if (currentState !== ConnectionStates.Connected) {
-    currentState = ConnectionStates.Connected;
-    console.error("connected");
-  }
-});
+import ThriftClient from "./ThriftClient";
+import * as Hello from "./gen-nodejs/Hello";
+import * as Numbers from "./gen-nodejs/Numbers";
 
 // Create a Calculator client with the connection
-const client = thrift.createClient(Hello, connection);
+const helloClient = new ThriftClient("linkerd", 8081, Hello);
+const numbersClient = new ThriftClient("linkerd", 8081, Numbers);
 
 const schema = new graphql.GraphQLSchema({
   query: new graphql.GraphQLObjectType({
     fields: {
-      testString: {
-        resolve: client.hi.bind(client),
+      hello: {
+        resolve: () => helloClient.client.hi(),
         type: graphql.GraphQLString,
+      },
+      randomNumber: {
+        resolve: () => numbersClient.client.generate(),
+        type: graphql.GraphQLInt,
       },
     },
     name: "Query",

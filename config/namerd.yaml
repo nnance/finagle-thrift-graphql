@@ -9,6 +9,7 @@ storage:
       /host       => /$/inet/web/8080;
       /http/1.1/* => /host;
       /thrift/hi  => /$/inet/server/9090;
+      /thrift/generate  => /$/inet/numbers/9091;
 interfaces:
 - kind: io.l5d.thriftNameInterpreter
   ip: 0.0.0.0
