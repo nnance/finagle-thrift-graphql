@@ -1,20 +1,22 @@
 version: '2'
 
 services:
+  server:
+    build: ./hello-scala/target/docker/stage
+    container_name: server
+    ports: ["9090:9090"]
+
   graphql:
-    build: graphql/
+    build: ./graphql
     container_name: graphql
     ports: ["3000:3000"]
-
-  server:
-    build: hello/
-    container_name: server
-    ports: ["8081:8081"]
+    depends_on:
+      - linkerd
 
   linkerd:
     image: buoyantio/linkerd:0.8.2
     container_name: linkerd
-    ports: ["4140:4140", "9990:9990"]
+    ports: ["8080:8080", "8081:8081", "9990:9990"]
     volumes: ["./config:/config:ro"]
     command: /config/linkerd.yaml
 

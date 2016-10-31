@@ -1,8 +1,6 @@
 FROM node
 COPY package.json /graphql/
-COPY ./dist/* /graphql/dist/
-COPY ./dist/gen-nodejs /graphql/dist/gen-nodejs
+COPY ./dist/ /graphql/dist/
 WORKDIR /graphql
-RUN NODE_ENV=production
-RUN npm i
-ENTRYPOINT npm start
+RUN npm install --production
+CMD node ./dist/server.js

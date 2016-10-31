@@ -11,9 +11,6 @@
     "allowSyntheticDefaultImports": false,
     "pretty": true,
     "removeComments": true,
-    "typeRoots": [
-        "node_modules/@types"
-    ],
     "types": [
         "typed-graphql"
     ]

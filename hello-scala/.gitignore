@@ -14,8 +14,3 @@ project/target
 target
 tmp
 activator-*.sbt
-
-# node ignores
-node_modules/
-dist/
-npm-debug.log
